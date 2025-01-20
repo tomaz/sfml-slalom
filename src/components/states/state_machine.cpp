@@ -1,28 +1,27 @@
 #include "state_machine.hpp"
+#include <application.hpp>
 
 namespace tk
 {
-#pragma region Construction & destruction
-
-	StateMachine::StateMachine()
-		: m_application{ nullptr }
-		, m_state{ nullptr } {
-	}
-
-	StateMachine::~StateMachine() {
-		m_application = nullptr;
-		m_state		  = nullptr;
-	}
-
-#pragma endregion
-
 #pragma region Overrides
 
 	bool StateMachine::onUpdate(double delta) {
+		// Update all nodes.
+		for (auto &node : m_nodes) {
+			node->onUpdate(delta);
+		}
+
+		// Update state if we have one.
 		return m_state ? m_state->onUpdate(delta) : true;
 	}
 
 	void StateMachine::draw(sf::RenderTarget &target, sf::RenderStates states) const {
+		// Draw all nodes.
+		for (auto &node : m_nodes) {
+			target.draw(*node);
+		}
+
+		// Ask state to draw itself, if we have one.
 		if (m_state) {
 			m_state->draw(target, states);
 		}

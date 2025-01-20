@@ -13,27 +13,16 @@ namespace tk
 	 * @brief Declares a scene.
 	 *
 	 * Each scene is responsible for updating and rendering a particular aspect of the application. Subclass could implement main menu or game loop for example.
-	 *
-	 * Scene is also @see StateMachine. This makes sense since most of the scenes would use a state machine anyway. However subclasses can ignore states by overriding @see onUpdate and @see draw. Or simply not set a state.
 	 */
 	class Scene
 		: public Activatable
 		, public StateMachine
 	{
 	protected:
-		/**
-		 * @brief Default constructor.
-		 *
-		 * @param width Width of the scene in pixels.
-		 * @param height Height of the scene in pixels.
-		 */
-		Scene(uint32_t width = 800u, uint32_t height = 600u) noexcept;
-
-	public:
-		/**
-		 * @brief Default destructor.
-		 */
-		virtual ~Scene();
+		Scene() noexcept				   = default;
+		Scene(const Scene &other) noexcept = default;
+		Scene(Scene &&other) noexcept	   = default;
+		virtual ~Scene()				   = default;
 
 	public:
 		/**
@@ -43,21 +32,19 @@ namespace tk
 		 */
 		virtual sf::Color backgroundColor();
 
+		/**
+		 * @brief Provides the desired size of a view.
+		 *
+		 * This is called when the scene becomes active. It allows the subclass to specify its desired size in the window. The parameter is window size. Default value returns the same size but subclass that wants for example have 2x resolution, can return half the size.
+		 *
+		 * @param windowSize Window size.
+		 * @return Returns the desired size of the scene view.
+		 */
+		virtual sf::Vector2u viewSize(sf::Vector2u windowSize);
+
 	public:
 		void onActivated() override;
 		void onDeactivated() override;
-		bool onUpdate(double delta) override;
-		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
-
-	public:
-		void setApplication(Application *application);
-		Application *application();
-		uint32_t width() { return m_width; }
-		uint32_t height() { return m_height; }
-
-	private:
-		uint32_t m_width;
-		uint32_t m_height;
 	};
 
 } // namespace tk

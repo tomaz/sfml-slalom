@@ -59,11 +59,12 @@ namespace tk
 		m_scene->setApplication(this);
 		m_scene->onActivated();
 
-		// Create the view for the scene.
-		m_view = sf::View(sf::FloatRect(
-			{ 0, 0 },
-			{ (float)m_scene->width(), (float)m_scene->height() }
-		));
+		// Ask the scene for its desired view size.
+		auto viewSize  = m_scene->viewSize(m_window.getSize());
+		auto viewSizeF = sf::Vector2f{ (float)viewSize.x, (float)viewSize.y };
+
+		// Setup the view for the scene.
+		m_view = sf::View(sf::FloatRect({ 0.f, 0.f }, viewSizeF));
 		m_window.setView(m_view);
 
 		// Reset other values.

@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <activatable.hpp>
+#include <node.hpp>
 #include <updatable.hpp>
 
 namespace tk
@@ -21,15 +22,8 @@ namespace tk
 		, public Drawable
 	{
 	public:
-		/**
-		 * @brief Default constructor.
-		 */
-		State();
-
-		/**
-		 * @brief Default dtor
-		 */
-		virtual ~State();
+		State() noexcept = default;
+		virtual ~State() = default;
 
 	public:
 		void onActivated() override;
@@ -40,9 +34,11 @@ namespace tk
 	public:
 		void setApplication(tk::Application *application) { m_application = application; }
 		tk::Application *application() { return m_application; }
+		tk::NodesList &nodes() { return m_nodes; }
 
 	private:
 		tk::Application *m_application;
+		tk::NodesList m_nodes;
 	};
 
 } // namespace tk

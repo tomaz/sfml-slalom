@@ -5,7 +5,22 @@ project(slalom LANGUAGES CXX)
 set(BINARY_NAME slalom)
 set(BINARY_DIR ${CMAKE_BINARY_DIR}/bin)
 set(ASSETS_DIR assets)
+set(ASSETS_SRC_DIR ${CMAKE_SOURCE_DIR}/${ASSETS_DIR})
+set(ASSETS_DST_DIR ${BINARY_DIR}/${ASSETS_DIR})
 set(SRC_DIR src)
+
+# Tools
+set(ASEPRITE $ENV{HOME}/Applications/Aseprite.app/Contents/MacOS/aseprite)
+
+function(aseprite_spritesheet desc file)
+	add_custom_command(
+		TARGET ${BINARY_NAME}
+		POST_BUILD
+		DEPENDS ${ASSETS_SRC_DIR}/${file}.aseprite
+		COMMENT ${desc}
+		COMMAND ${ASEPRITE} --batch --sheet ${ASSETS_DST_DIR}/${file}.png ${ASSETS_SRC_DIR}/${file}.aseprite > ${ASSETS_DST_DIR}/${file}.json
+	)
+endfunction()
 
 # Prepare various module flags
 set(FETCHCONTENT_UPDATES_DISCONNECTED ON)	# FetchContent should use caches when offline
@@ -43,3 +58,7 @@ target_compile_features(${BINARY_NAME} PRIVATE cxx_std_23)
 target_link_libraries(${BINARY_NAME} PRIVATE SFML::System)
 target_link_libraries(${BINARY_NAME} PRIVATE SFML::Graphics)
 target_link_libraries(${BINARY_NAME} PRIVATE SFML::Audio)
+
+# Convert Aseprite images
+file(MAKE_DIRECTORY ${ASSETS_DST_DIR})
+aseprite_spritesheet("Convert red flag image" flag-red)

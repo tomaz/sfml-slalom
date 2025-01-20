@@ -2,23 +2,11 @@
 
 namespace tk
 {
-#pragma region Construction & destruction
-
-	//-------------------------------------------------------------------------
-	State::State() {
-	}
-
-	//-------------------------------------------------------------------------
-	State::~State() {
-	}
-
-#pragma endregion
-
 #pragma region Subclass
 
 	//-------------------------------------------------------------------------
 	void State::onActivated() {
-		// Nothing to do by defaylt.
+		// Nothing to do by default.
 	}
 
 	//-------------------------------------------------------------------------
@@ -28,12 +16,17 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	bool State::onUpdate(double delta) {
-		return false;
+		for (auto &node : m_nodes) {
+			node->onUpdate(delta);
+		}
+		return true;
 	}
 
 	//-------------------------------------------------------------------------
 	void State::draw(sf::RenderTarget &target, sf::RenderStates states) const {
-		// Nothing to do by defaylt.
+		for (auto &node : m_nodes) {
+			target.draw(*node);
+		}
 	}
 
 #pragma endregion
