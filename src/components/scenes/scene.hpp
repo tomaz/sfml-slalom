@@ -1,8 +1,7 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
-#include <activatable.hpp>
-#include <updatable.hpp>
+#include <state_machine.hpp>
 
 namespace tk
 {
@@ -14,11 +13,12 @@ namespace tk
 	 * @brief Declares a scene.
 	 *
 	 * Each scene is responsible for updating and rendering a particular aspect of the application. Subclass could implement main menu or game loop for example.
+	 *
+	 * Scene is also @see StateMachine. This makes sense since most of the scenes would use a state machine anyway. However subclasses can ignore states by overriding @see onUpdate and @see draw. Or simply not set a state.
 	 */
 	class Scene
 		: public Activatable
-		, public Updatable
-		, public Drawable
+		, public StateMachine
 	{
 	protected:
 		/**
@@ -50,13 +50,12 @@ namespace tk
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 	public:
-		void setApplication(Application *application) { m_application = application; }
-		Application *application() { return m_application; }
+		void setApplication(Application *application);
+		Application *application();
 		uint32_t width() { return m_width; }
 		uint32_t height() { return m_height; }
 
 	private:
-		tk::Application *m_application;
 		uint32_t m_width;
 		uint32_t m_height;
 	};
