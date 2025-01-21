@@ -28,26 +28,17 @@ namespace tk::game
 		auto redFlag = std::make_unique<tk::SpriteNode>();
 		redFlag->setSpriteSheet(m_redFlagSheet);
 		redFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
+		redFlag->setPosition({ 0.f, 0.f });
+		redFlag->setVelocity({ 10.0, 10.0 });
 
 		auto blueFlag = std::make_unique<tk::SpriteNode>();
 		blueFlag->setSpriteSheet(m_blueFlagSheet);
 		blueFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
+		blueFlag->setPosition({ 30.f, 0.f });
+		blueFlag->setVelocity({ 10.0, 10.0 });
 
 		nodes().emplace_back(std::move(redFlag));
 		nodes().emplace_back(std::move(blueFlag));
-	}
-
-	//-------------------------------------------------------------------------
-	bool GameScene::onUpdate(double delta) {
-		auto &redFlag  = nodes().front();
-		auto &blueFlag = nodes().back();
-
-		auto pos	= redFlag->getPosition();
-		auto newPos = pos.x + 10.f * (float)delta;
-		redFlag->setPosition({ newPos, newPos });
-		blueFlag->setPosition({ newPos + 30, newPos });
-
-		return Scene::onUpdate(delta);
 	}
 
 #pragma endregion

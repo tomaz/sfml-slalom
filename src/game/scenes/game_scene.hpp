@@ -24,7 +24,6 @@ namespace tk::game
 	public:
 		sf::Vector2u viewSize(sf::Vector2u windowSize) override;
 		void onActivated() override;
-		bool onUpdate(double delta) override;
 
 	private:
 		tk::shared_SpriteSheet m_redFlagSheet;

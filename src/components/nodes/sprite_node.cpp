@@ -30,7 +30,7 @@ namespace tk
 	//-------------------------------------------------------------------------
 	bool SpriteNode::onUpdate(double delta) {
 		m_animator.update(delta);
-		return true;
+		return Node::onUpdate(delta);
 	}
 
 	//-------------------------------------------------------------------------
