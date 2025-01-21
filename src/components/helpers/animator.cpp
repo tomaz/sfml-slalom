@@ -10,10 +10,10 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	Animator::Animator(double time, Type type)
-		: m_type{ type }
+		: Updatable::Updatable{}
+		, m_type{ type }
 		, m_total{ time }
-		, m_time{ 0.0 }
-		, m_active{ false } {
+		, m_time{ 0.0 } {
 		reset();
 	}
 
@@ -85,24 +85,15 @@ namespace tk
 #pragma region Changing status
 
 	//-------------------------------------------------------------------------
-	void Animator::enable(bool enable) {
-		if (enable) {
-			start();
-		} else {
-			stop();
-		}
-	}
-
-	//-------------------------------------------------------------------------
 	void Animator::start() {
-		if (m_active) return;
-		m_active = true;
+		if (active()) return;
+		setActive(true);
 	}
 
 	//-------------------------------------------------------------------------
 	void Animator::stop(bool shouldReset) {
-		if (!m_active) return;
-		m_active = false;
+		if (!active()) return;
+		setActive(false);
 		if (shouldReset) reset();
 	}
 
@@ -121,7 +112,6 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	bool Animator::onUpdate(double delta) {
-		if (!m_active) return false;
 		if (m_total <= 0) return false;
 
 		// Remember current values before we (potentially) reset them.
@@ -134,8 +124,8 @@ namespace tk
 		switch (m_type) {
 			case Type::OneShot:
 				if (m_time >= m_total) {
-					m_time	 = m_total;
-					m_active = false;
+					m_time = m_total;
+					setActive(false);
 				}
 				break;
 
@@ -144,8 +134,8 @@ namespace tk
 					m_time	 = m_total;
 					m_prefix = -1.0;
 				} else if (m_time <= 0.0) {
-					m_time	 = 0.0;
-					m_active = false;
+					m_time = 0.0;
+					setActive(false);
 				}
 				break;
 

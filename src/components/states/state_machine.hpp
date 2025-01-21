@@ -25,10 +25,8 @@ namespace tk
 		StateMachine(StateMachine &&other) noexcept		 = default;
 		~StateMachine()									 = default;
 
-	public:
-		bool onUpdate(double delta) override;
-
 	protected:
+		bool onUpdate(double delta) override;
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 	public:

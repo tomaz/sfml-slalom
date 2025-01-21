@@ -22,9 +22,9 @@ namespace tk
 	public:
 		void setSpriteSheet(std::shared_ptr<tk::SpriteSheet> &spritesheet);
 		void setAnimation(double time, animator::Type type);
-		void animate(bool active = true);
 
 	protected:
+		void onActive(bool active) override;
 		bool onUpdate(double delta) override;
 		void onDraw(RenderTarget &target, RenderStates states) const override;
 

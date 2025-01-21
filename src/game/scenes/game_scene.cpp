@@ -28,12 +28,10 @@ namespace tk::game
 		auto redFlag = std::make_unique<tk::SpriteNode>();
 		redFlag->setSpriteSheet(m_redFlagSheet);
 		redFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
-		redFlag->animate();
 
 		auto blueFlag = std::make_unique<tk::SpriteNode>();
 		blueFlag->setSpriteSheet(m_blueFlagSheet);
 		blueFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
-		blueFlag->animate();
 
 		nodes().emplace_back(std::move(redFlag));
 		nodes().emplace_back(std::move(blueFlag));

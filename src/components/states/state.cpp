@@ -17,7 +17,7 @@ namespace tk
 	//-------------------------------------------------------------------------
 	bool State::onUpdate(double delta) {
 		for (auto &node : m_nodes) {
-			node->onUpdate(delta);
+			node->update(delta);
 		}
 		return true;
 	}

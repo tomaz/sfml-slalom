@@ -18,18 +18,18 @@ namespace tk
 		updateAnimations();
 	}
 
-	//-------------------------------------------------------------------------
-	void SpriteNode::animate(bool active) {
-		m_animator.enable(active);
-	}
-
 #pragma endregion
 
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
+	void SpriteNode::onActive(bool active) {
+		m_animator.setActive(active);
+	}
+
+	//-------------------------------------------------------------------------
 	bool SpriteNode::onUpdate(double delta) {
-		m_animator.onUpdate(delta);
+		m_animator.update(delta);
 		return true;
 	}
 

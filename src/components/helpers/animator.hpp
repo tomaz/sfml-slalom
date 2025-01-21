@@ -49,8 +49,12 @@ namespace tk
 		 * @brief Default constructor.
 		 *
 		 * @param time Time of the whole animation.
+		 * @param type Type of the animation to use.
 		 */
-		Animator(double time = 0.0, animator::Type type = animator::Type::OneShot);
+		Animator(
+			double time			= 0.0,
+			animator::Type type = animator::Type::OneShot
+		);
 
 	public:
 		/**
@@ -108,13 +112,6 @@ namespace tk
 
 	public:
 		/**
-		 * @brief Enables or disables animation.
-		 *
-		 * This is convenience for @see start() and @see stop(). Note that stop is always called with false in this case.
-		 */
-		void enable(bool enable = true);
-
-		/**
 		 * @brief Starts the animator.
 		 */
 		void start();
@@ -131,7 +128,7 @@ namespace tk
 		 */
 		void reset();
 
-	public:
+	protected:
 		bool onUpdate(double delta) override;
 
 	public:
@@ -144,7 +141,6 @@ namespace tk
 		double m_total;
 		double m_time;
 		double m_prefix;
-		bool m_active;
 
 		double m_nextProgress;
 		int32_t m_currentIndex;

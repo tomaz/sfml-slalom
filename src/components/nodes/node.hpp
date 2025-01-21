@@ -26,10 +26,6 @@ namespace tk
 		virtual ~Node()					 = default;
 
 	public:
-		Node &operator=(const Node &other) noexcept = default;
-		Node &operator=(Node &&other) noexcept		= default;
-
-	public:
 		bool onUpdate(double delta) override;
 
 	protected:

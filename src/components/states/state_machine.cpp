@@ -5,16 +5,18 @@ namespace tk
 {
 #pragma region Overrides
 
+	//-------------------------------------------------------------------------
 	bool StateMachine::onUpdate(double delta) {
 		// Update all nodes.
 		for (auto &node : m_nodes) {
-			node->onUpdate(delta);
+			node->update(delta);
 		}
 
 		// Update state if we have one.
 		return m_state ? m_state->onUpdate(delta) : true;
 	}
 
+	//-------------------------------------------------------------------------
 	void StateMachine::draw(sf::RenderTarget &target, sf::RenderStates states) const {
 		// Draw all nodes.
 		for (auto &node : m_nodes) {
@@ -31,10 +33,12 @@ namespace tk
 
 #pragma region Application handling
 
+	//-------------------------------------------------------------------------
 	void StateMachine::setApplication(std::shared_ptr<tk::Application> application) {
 		m_application = std::weak_ptr<tk::Application>(application);
 	}
 
+	//-------------------------------------------------------------------------
 	tk::Application *StateMachine::application() {
 		return m_application.lock().get();
 	}

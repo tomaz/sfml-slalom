@@ -114,7 +114,7 @@ namespace tk
 		auto fps		= micros > 0.0 ? 1'000'000.0 / micros : 0.0;
 
 		// Ask scene to update.
-		return m_scene->onUpdate(frameDelta);
+		return m_scene->update(frameDelta);
 	}
 
 	//-------------------------------------------------------------------------
