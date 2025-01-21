@@ -1,6 +1,8 @@
 #pragma once
 
 #include <list>
+#include <memory>
+
 #include <node.hpp>
 #include <state.hpp>
 
@@ -28,8 +30,8 @@ namespace tk
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 	public:
-		void setApplication(tk::Application *application) { m_application = application; }
-		tk::Application *application() { return m_application; }
+		void setApplication(std::shared_ptr<tk::Application> application);
+		tk::Application *application();
 
 	protected:
 		void setState(tk::State *state);
@@ -38,7 +40,7 @@ namespace tk
 		tk::NodesList &nodes() { return m_nodes; }
 
 	private:
-		tk::Application *m_application;
+		std::weak_ptr<tk::Application> m_application;
 		tk::State *m_state;
 		tk::NodesList m_nodes;
 	};

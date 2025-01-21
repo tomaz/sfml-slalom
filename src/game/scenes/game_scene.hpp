@@ -1,6 +1,9 @@
 #pragma once
 
+#include <memory>
+
 #include <SFML/Graphics.hpp>
+
 #include <scene.hpp>
 #include <sprite_node.hpp>
 #include <spritesheet.hpp>
@@ -13,7 +16,7 @@ namespace tk::game
 	class GameScene : public Scene
 	{
 	public:
-		GameScene() noexcept					   = default;
+		GameScene() noexcept;
 		GameScene(const GameScene &other) noexcept = default;
 		GameScene(GameScene &&other) noexcept	   = default;
 		~GameScene()							   = default;
@@ -24,7 +27,7 @@ namespace tk::game
 		bool onUpdate(double delta) override;
 
 	private:
-		tk::SpriteSheet m_redFlagSheet;
+		std::shared_ptr<tk::SpriteSheet> m_redFlagSheet;
 	};
 
 } // namespace tk::game

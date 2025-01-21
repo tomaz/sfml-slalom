@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include <node.hpp>
 #include <spritesheet.hpp>
 
@@ -12,7 +14,7 @@ namespace tk
 		: public Node
 	{
 	public:
-		SpriteNode(tk::SpriteSheet *spritesheet);
+		SpriteNode(std::shared_ptr<tk::SpriteSheet> spritesheet);
 		SpriteNode(const SpriteNode &other) noexcept = default;
 		SpriteNode(SpriteNode &&other) noexcept		 = default;
 		~SpriteNode()								 = default;
@@ -21,11 +23,10 @@ namespace tk
 		void onDraw(RenderTarget &target, RenderStates states) const override;
 
 	public:
-		void setSpriteSheet(tk::SpriteSheet *spritesheet);
-		tk::SpriteSheet *spritesheet() { return m_spritesheet; }
+		void setSpriteSheet(std::shared_ptr<tk::SpriteSheet> &spritesheet);
 
 	private:
-		tk::SpriteSheet *m_spritesheet;
+		std::shared_ptr<tk::SpriteSheet> m_spritesheet;
 		sf::Sprite m_sprite;
 	};
 

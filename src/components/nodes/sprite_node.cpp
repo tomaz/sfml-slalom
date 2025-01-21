@@ -3,7 +3,7 @@
 namespace tk
 {
 	//-------------------------------------------------------------------------
-	SpriteNode::SpriteNode(tk::SpriteSheet *spritesheet)
+	SpriteNode::SpriteNode(std::shared_ptr<tk::SpriteSheet> spritesheet)
 		: m_spritesheet{ spritesheet }
 		, m_sprite{ spritesheet->texture() } {
 		m_sprite.setTexture(m_spritesheet->texture());
@@ -15,7 +15,7 @@ namespace tk
 	}
 
 	//-------------------------------------------------------------------------
-	void SpriteNode::setSpriteSheet(tk::SpriteSheet *spritesheet) {
+	void SpriteNode::setSpriteSheet(std::shared_ptr<tk::SpriteSheet> &spritesheet) {
 		m_spritesheet = spritesheet;
 		m_sprite.setTexture(m_spritesheet->texture());
 	}

@@ -3,8 +3,8 @@
 #include <game_scene.hpp>
 
 int main() {
-	auto application = tk::Application("Slalom");
+	auto application = tk::Application::create("Slalom");
 	auto scene		 = tk::game::GameScene();
-	application.run(scene);
+	application->run(scene);
 	return 0;
 }

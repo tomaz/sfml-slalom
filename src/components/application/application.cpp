@@ -5,6 +5,22 @@ namespace tk
 {
 #pragma region Construction & destruction
 
+	std::shared_ptr<Application> g_applicationInstance = nullptr;
+
+	//-------------------------------------------------------------------------
+	std::shared_ptr<Application> Application::create(
+		std::string title,
+		uint32_t width,
+		uint32_t height,
+		uint32_t antiAliasingLevel
+	) {
+		if (g_applicationInstance.get() == nullptr) {
+			auto instance		  = new Application(title, width, height, antiAliasingLevel);
+			g_applicationInstance = std::shared_ptr<Application>(instance);
+		}
+		return g_applicationInstance;
+	}
+
 	//-------------------------------------------------------------------------
 	Application::Application(
 		std::string title,
@@ -56,7 +72,7 @@ namespace tk
 		m_scene = &scene;
 
 		// Setup new scene.
-		m_scene->setApplication(this);
+		m_scene->setApplication(g_applicationInstance);
 		m_scene->onActivated();
 
 		// Ask the scene for its desired view size.

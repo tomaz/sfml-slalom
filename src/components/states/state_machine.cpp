@@ -29,6 +29,18 @@ namespace tk
 
 #pragma endregion
 
+#pragma region Application handling
+
+	void StateMachine::setApplication(std::shared_ptr<tk::Application> application) {
+		m_application = std::weak_ptr<tk::Application>(application);
+	}
+
+	tk::Application *StateMachine::application() {
+		return m_application.lock().get();
+	}
+
+#pragma endregion
+
 #pragma region States handling
 
 	//-------------------------------------------------------------------------
@@ -43,7 +55,7 @@ namespace tk
 		m_state = state;
 
 		// Notitfy new state it's being activated.
-		m_state->setApplication(m_application);
+		m_state->setApplication(m_application.lock());
 		m_state->onActivated();
 	}
 

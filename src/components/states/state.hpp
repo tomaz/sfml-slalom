@@ -32,12 +32,12 @@ namespace tk
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 	public:
-		void setApplication(tk::Application *application) { m_application = application; }
-		tk::Application *application() { return m_application; }
+		void setApplication(std::shared_ptr<tk::Application> application);
+		tk::Application *application();
 		tk::NodesList &nodes() { return m_nodes; }
 
 	private:
-		tk::Application *m_application;
+		std::weak_ptr<tk::Application> m_application;
 		tk::NodesList m_nodes;
 	};
 

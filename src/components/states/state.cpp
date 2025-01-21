@@ -31,4 +31,16 @@ namespace tk
 
 #pragma endregion
 
+#pragma region Getters & setters
+
+	void State::setApplication(std::shared_ptr<tk::Application> application) {
+		m_application = std::weak_ptr<tk::Application>(application);
+	}
+
+	tk::Application *State::application() {
+		return m_application.lock().get();
+	}
+
+#pragma endregion
+
 } // namespace tk

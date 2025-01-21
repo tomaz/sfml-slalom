@@ -10,29 +10,31 @@ namespace tk
 	 * @brief The main application class.
 	 *
 	 * This is the wrapper over the application window.
+	 *
+	 * There's only one instance allowed and @see create() takes care of that.
 	 */
 	class Application
 	{
 	public:
 		/**
-		 * @brief Default constructor that creates default type of window.
+		 * @brief Creates a new application instance, or returns exiting one.
 		 *
-		 * @param title Window title.
-		 * @param width Window width in pixels.
-		 * @param height Window height in pixels.
-		 * @param antiAliasingLevel Anti aliasing to use.
+		 * @param title Title of the window.
+		 * @param width Width of the window in pixels.
+		 * @param height Height of the window in pixels.
+		 * @param antiAliasingLevel Anti aliasing level.
 		 */
-		Application(
+		static std::shared_ptr<Application> create(
 			std::string title,
 			uint32_t width			   = 800u,
 			uint32_t height			   = 600u,
 			uint32_t antiAliasingLevel = 16
-		) noexcept;
+		);
 
-		/**
-		 * @brief Default destructor.
-		 */
 		~Application();
+
+	private:
+		Application(std::string title, uint32_t width, uint32_t height, uint32_t antiAliasingLevel) noexcept;
 
 	public:
 		/**
