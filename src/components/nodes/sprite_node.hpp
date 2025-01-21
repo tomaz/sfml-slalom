@@ -2,32 +2,40 @@
 
 #include <memory>
 
+#include <animator.hpp>
 #include <node.hpp>
 #include <spritesheet.hpp>
 
 namespace tk
 {
 	/**
-	 * @brief Embeds sf::Sprite.
+	 * @brief Embeds sf::Sprite and allows animating.
 	 */
 	class SpriteNode
 		: public Node
 	{
 	public:
-		SpriteNode(std::shared_ptr<tk::SpriteSheet> spritesheet);
-		SpriteNode(const SpriteNode &other) noexcept = default;
-		SpriteNode(SpriteNode &&other) noexcept		 = default;
-		~SpriteNode()								 = default;
-
-	protected:
-		void onDraw(RenderTarget &target, RenderStates states) const override;
+		SpriteNode() noexcept					= default;
+		SpriteNode(SpriteNode &&other) noexcept = default;
+		~SpriteNode()							= default;
 
 	public:
 		void setSpriteSheet(std::shared_ptr<tk::SpriteSheet> &spritesheet);
+		void setAnimation(double time, animator::Type type);
+		void animate(bool active = true);
+
+	protected:
+		bool onUpdate(double delta) override;
+		void onDraw(RenderTarget &target, RenderStates states) const override;
+
+	private:
+		void updateAnimations();
+		void updateFrame(int index);
 
 	private:
 		std::shared_ptr<tk::SpriteSheet> m_spritesheet;
-		sf::Sprite m_sprite;
+		std::unique_ptr<tk::Sprite> m_sprite;
+		tk::Animator m_animator;
 	};
 
 } // namespace tk

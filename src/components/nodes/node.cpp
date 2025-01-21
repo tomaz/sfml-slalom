@@ -2,16 +2,13 @@
 
 namespace tk
 {
-#pragma region Subclass
+#pragma region Overrides
 
 	//-------------------------------------------------------------------------
 	bool Node::onUpdate(double delta) {
+		// We override this so subclasses to simplify subclasses that don't have to handle updates.
 		return true;
 	}
-
-#pragma endregion
-
-#pragma region Overrides
 
 	//-------------------------------------------------------------------------
 	void Node::draw(RenderTarget &target, RenderStates states) const {

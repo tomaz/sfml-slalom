@@ -23,7 +23,14 @@ namespace tk::game
 	//-------------------------------------------------------------------------
 	void GameScene::onActivated() {
 		m_redFlagSheet->load("flag-red");
-		nodes().emplace_back(std::make_unique<tk::SpriteNode>(m_redFlagSheet));
+
+		auto flag = std::make_unique<tk::SpriteNode>();
+		flag->setSpriteSheet(m_redFlagSheet);
+		flag->setAnimation(0.5, animator::Type::RepeatingBounce);
+		flag->animate();
+
+		// nodes().emplace_back(std::make_unique<tk::SpriteNode>(m_redFlagSheet, 1.0, animator::Type::RepeatingBounce));
+		nodes().emplace_back(std::move(flag));
 	}
 
 	//-------------------------------------------------------------------------
