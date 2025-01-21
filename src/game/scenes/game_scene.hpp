@@ -27,7 +27,8 @@ namespace tk::game
 		bool onUpdate(double delta) override;
 
 	private:
-		std::shared_ptr<tk::SpriteSheet> m_redFlagSheet;
+		tk::shared_SpriteSheet m_redFlagSheet;
+		tk::shared_SpriteSheet m_blueFlagSheet;
 	};
 
 } // namespace tk::game

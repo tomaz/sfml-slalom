@@ -49,4 +49,7 @@ namespace tk
 		std::vector<sf::IntRect> m_frames;
 	};
 
+	using shared_SpriteSheet = std::shared_ptr<tk::SpriteSheet>;
+	using weak_SpriteSheet	 = std::weak_ptr<tk::SpriteSheet>;
+
 } // namespace tk

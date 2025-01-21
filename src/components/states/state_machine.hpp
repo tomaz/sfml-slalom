@@ -20,8 +20,10 @@ namespace tk
 		, public Drawable
 	{
 	protected:
-		StateMachine() noexcept = default;
-		~StateMachine()			= default;
+		StateMachine() noexcept							 = default;
+		StateMachine(const StateMachine &other) noexcept = default;
+		StateMachine(StateMachine &&other) noexcept		 = default;
+		~StateMachine()									 = default;
 
 	public:
 		bool onUpdate(double delta) override;

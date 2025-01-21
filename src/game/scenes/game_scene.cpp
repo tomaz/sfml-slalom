@@ -1,14 +1,14 @@
 #include "game_scene.hpp"
 
-double pos = 0.f;
-
 namespace tk::game
 {
 #pragma region Construction & destruction
 
 	//-------------------------------------------------------------------------
-	GameScene::GameScene() noexcept {
-		m_redFlagSheet = SpriteSheet::create();
+	GameScene::GameScene() noexcept
+		: Scene::Scene() {
+		m_redFlagSheet	= SpriteSheet::create();
+		m_blueFlagSheet = SpriteSheet::create();
 	}
 
 #pragma endregion
@@ -23,22 +23,32 @@ namespace tk::game
 	//-------------------------------------------------------------------------
 	void GameScene::onActivated() {
 		m_redFlagSheet->load("flag-red");
+		m_blueFlagSheet->load("flag-blue");
 
-		auto flag = std::make_unique<tk::SpriteNode>();
-		flag->setSpriteSheet(m_redFlagSheet);
-		flag->setAnimation(0.5, animator::Type::RepeatingBounce);
-		flag->animate();
+		auto redFlag = std::make_unique<tk::SpriteNode>();
+		redFlag->setSpriteSheet(m_redFlagSheet);
+		redFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
+		redFlag->animate();
 
-		// nodes().emplace_back(std::make_unique<tk::SpriteNode>(m_redFlagSheet, 1.0, animator::Type::RepeatingBounce));
-		nodes().emplace_back(std::move(flag));
+		auto blueFlag = std::make_unique<tk::SpriteNode>();
+		blueFlag->setSpriteSheet(m_blueFlagSheet);
+		blueFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
+		blueFlag->animate();
+
+		nodes().emplace_back(std::move(redFlag));
+		nodes().emplace_back(std::move(blueFlag));
 	}
 
 	//-------------------------------------------------------------------------
 	bool GameScene::onUpdate(double delta) {
-		auto &flag = nodes().front();
-		auto pos   = flag->getPosition();
-		auto n	   = pos.x + 10.f * (float)delta;
-		flag->setPosition({ n, n });
+		auto &redFlag  = nodes().front();
+		auto &blueFlag = nodes().back();
+
+		auto pos	= redFlag->getPosition();
+		auto newPos = pos.x + 10.f * (float)delta;
+		redFlag->setPosition({ newPos, newPos });
+		blueFlag->setPosition({ newPos + 30, newPos });
+
 		return Scene::onUpdate(delta);
 	}
 
