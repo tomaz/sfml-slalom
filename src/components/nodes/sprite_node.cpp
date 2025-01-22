@@ -13,9 +13,16 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	void SpriteNode::setAnimation(double time, animator::Type type) {
+		m_animated = true;
 		m_animator.setTime(time);
 		m_animator.setType(type);
 		updateAnimations();
+	}
+
+	//-------------------------------------------------------------------------
+	void SpriteNode::setFrame(int index) {
+		m_animated = false;
+		updateFrame(index);
 	}
 
 #pragma endregion
@@ -29,7 +36,9 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	bool SpriteNode::onUpdate(double delta) {
-		m_animator.update(delta);
+		if (m_animated) {
+			m_animator.update(delta);
+		}
 		return Node::onUpdate(delta);
 	}
 
@@ -44,6 +53,8 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	void SpriteNode::updateAnimations() {
+		if (!m_animated) return;
+
 		updateFrame(0);
 
 		m_animator.addCallbacksCount(m_spritesheet->frames().size(), [&](double progress) {

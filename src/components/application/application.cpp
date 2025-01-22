@@ -71,16 +71,16 @@ namespace tk
 		// Assign new scene.
 		m_scene = &scene;
 
+		// Ask the scene for its desired view size.
+		auto viewSize = m_scene->viewSize(m_window.getSize());
+		m_viewSize	  = sf::Vector2f{ (float)viewSize.x, (float)viewSize.y };
+
 		// Setup new scene.
 		m_scene->setApplication(g_applicationInstance);
 		m_scene->onActivated();
 
-		// Ask the scene for its desired view size.
-		auto viewSize  = m_scene->viewSize(m_window.getSize());
-		auto viewSizeF = sf::Vector2f{ (float)viewSize.x, (float)viewSize.y };
-
 		// Setup the view for the scene.
-		m_view = sf::View(sf::FloatRect({ 0.f, 0.f }, viewSizeF));
+		m_view = sf::View(sf::FloatRect({ 0.f, 0.f }, m_viewSize));
 		m_window.setView(m_view);
 
 		// Reset other values.

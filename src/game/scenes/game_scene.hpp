@@ -3,10 +3,7 @@
 #include <memory>
 
 #include <SFML/Graphics.hpp>
-
 #include <scene.hpp>
-#include <sprite_node.hpp>
-#include <spritesheet.hpp>
 
 namespace tk::game
 {
@@ -24,10 +21,6 @@ namespace tk::game
 	public:
 		sf::Vector2u viewSize(sf::Vector2u windowSize) override;
 		void onActivated() override;
-
-	private:
-		tk::shared_SpriteSheet m_redFlagSheet;
-		tk::shared_SpriteSheet m_blueFlagSheet;
 	};
 
 } // namespace tk::game

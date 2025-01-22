@@ -22,6 +22,7 @@ namespace tk
 	public:
 		void setSpriteSheet(std::shared_ptr<tk::SpriteSheet> &spritesheet);
 		void setAnimation(double time, animator::Type type);
+		void setFrame(int index);
 
 	protected:
 		void onActive(bool active) override;
@@ -36,6 +37,7 @@ namespace tk
 		std::shared_ptr<tk::SpriteSheet> m_spritesheet;
 		std::unique_ptr<tk::Sprite> m_sprite;
 		tk::Animator m_animator;
+		bool m_animated;
 	};
 
 } // namespace tk

@@ -51,6 +51,11 @@ namespace tk
 		 */
 		void setScene(Scene &scene);
 
+		/**
+		 * @brief Returns current view size in pixels.
+		 */
+		sf::Vector2f viewSize() { return m_viewSize; }
+
 	private:
 		/**
 		 * @brief Handles all window events.
@@ -82,6 +87,7 @@ namespace tk
 	private:
 		sf::RenderWindow m_window;
 		sf::View m_view;
+		sf::Vector2f m_viewSize;
 		sf::Clock m_frameClock;
 		tk::Scene *m_scene;
 	};

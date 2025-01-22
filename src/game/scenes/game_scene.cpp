@@ -1,3 +1,6 @@
+#include <application.hpp>
+#include <track_node.hpp>
+
 #include "game_scene.hpp"
 
 namespace tk::game
@@ -7,8 +10,6 @@ namespace tk::game
 	//-------------------------------------------------------------------------
 	GameScene::GameScene() noexcept
 		: Scene::Scene() {
-		m_redFlagSheet	= SpriteSheet::create();
-		m_blueFlagSheet = SpriteSheet::create();
 	}
 
 #pragma endregion
@@ -22,23 +23,10 @@ namespace tk::game
 
 	//-------------------------------------------------------------------------
 	void GameScene::onActivated() {
-		m_redFlagSheet->load("flag-red");
-		m_blueFlagSheet->load("flag-blue");
-
-		auto redFlag = std::make_unique<tk::SpriteNode>();
-		redFlag->setSpriteSheet(m_redFlagSheet);
-		redFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
-		redFlag->setPosition({ 0.f, 0.f });
-		redFlag->setVelocity({ 10.0, 10.0 });
-
-		auto blueFlag = std::make_unique<tk::SpriteNode>();
-		blueFlag->setSpriteSheet(m_blueFlagSheet);
-		blueFlag->setAnimation(0.5, animator::Type::RepeatingBounce);
-		blueFlag->setPosition({ 30.f, 0.f });
-		blueFlag->setVelocity({ 10.0, 10.0 });
-
-		nodes().emplace_back(std::move(redFlag));
-		nodes().emplace_back(std::move(blueFlag));
+		auto track = std::make_unique<TrackNode>();
+		track->initialize();
+		track->populate(application()->viewSize(), 100);
+		nodes().emplace_back(std::move(track));
 	}
 
 #pragma endregion
