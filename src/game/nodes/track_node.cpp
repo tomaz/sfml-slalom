@@ -10,21 +10,14 @@ namespace tk::game
 
 	TrackNode::TrackNode() noexcept
 		: Node::Node() {
-		m_redFlagSheet	= SpriteSheet::create();
-		m_blueFlagSheet = SpriteSheet::create();
-		m_treesSheet	= SpriteSheet::create();
+		m_redFlagSheet	= SpriteSheet::create("flag-red");
+		m_blueFlagSheet = SpriteSheet::create("flag-blue");
+		m_treesSheet	= SpriteSheet::create("trees");
 	}
 
 #pragma endregion
 
 #pragma region Public
-
-	//-------------------------------------------------------------------------
-	void TrackNode::initialize() {
-		m_redFlagSheet->load("flag-red");
-		m_blueFlagSheet->load("flag-blue");
-		m_treesSheet->load("trees");
-	}
 
 	//-------------------------------------------------------------------------
 	void TrackNode::populate(sf::Vector2f viewSize, uint16_t difficulty) {
@@ -58,7 +51,7 @@ namespace tk::game
 		auto gateDistX = tk::Range<double>{ -gateBaseline, gateBaseline };
 
 		// Prepare offsets for track edge relative to gates.
-		auto trackEdgeOffset = tk::Range<double>::range(50.0, 50.0);
+		auto trackEdgeOffset = tk::Range<double>::range(30.0, 50.0);
 
 		// Prepare top and bottom edges of the track.
 		auto trackRangeY = tk::Range<double>{
@@ -82,6 +75,26 @@ namespace tk::game
 
 		// Helpers for less verbose code later on.
 		auto animSpeed = [&]() { return randomizer.getRealRange(0.4, 0.6); };
+
+		// Prepare the initial edges from top of screen to start of track.
+		auto startCenter	 = gateLeft + randomizer.getReal(gateDistX);
+		auto startTrackLeft	 = startCenter - randomizer.getReal(trackEdgeOffset);
+		auto startTrackRight = startCenter + randomizer.getReal(trackEdgeOffset);
+		result.emplace_back(
+			track::Edge{
+				.y = Range<double>(
+					0.0,
+					gateTop
+				),
+				.xTop = Range<double>(
+					startCenter - randomizer.getReal(trackEdgeOffset),
+					startCenter + randomizer.getReal(trackEdgeOffset)
+				),
+				.xBottom = Range<double>(
+					startTrackLeft,
+					startTrackRight
+				) }
+		);
 
 		// Setup the track and prepare the positions for edge of track.
 		while (gateTop <= gateBottom) {
@@ -130,14 +143,19 @@ namespace tk::game
 			gateDirection *= -1.0;
 		}
 
+		// Prepare start and end center coordinate based on the last gates. Note that we end the tracks loop by setting up for next gate, so we can simply use that for horizontal direction!
+		auto treeSize = m_treesSheet->frames().front().size.y;
+		m_startCenter = { (float)startCenter, (float)treeSize };
+		m_endCenter	  = { (float)gateLeft, (float)(viewSize.y - treeSize) };
+
 		return result;
-	}
+	} // namespace tk::game
 
 	//-------------------------------------------------------------------------
 	void TrackNode::populateTrees(sf::Vector2f viewSize, std::vector<track::Edge> &edges) {
 		Randomizer randomizer{};
 
-		auto treeSize	 = m_treesSheet->frames()[0].size;
+		auto treeSize	 = m_treesSheet->frames().front().size;
 		auto screenRight = viewSize.x - treeSize.x;
 
 		// We always work on tiles of the size of a single tree.

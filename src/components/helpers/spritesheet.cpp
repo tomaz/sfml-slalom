@@ -18,6 +18,13 @@ namespace tk
 		return std::shared_ptr<SpriteSheet>(new SpriteSheet());
 	}
 
+	//-------------------------------------------------------------------------
+	std::shared_ptr<SpriteSheet> SpriteSheet::create(std::string filename) {
+		auto result = create();
+		result->load(filename);
+		return result;
+	}
+
 #pragma endregion
 
 #pragma region Public

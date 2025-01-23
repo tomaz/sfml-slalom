@@ -35,13 +35,6 @@ namespace tk::game
 
 	public:
 		/**
-		 * @brief Initializes all needed resources.
-		 *
-		 * This is only needed to be called once.
-		 */
-		void initialize();
-
-		/**
 		 * @brief Cleans up current and creates a new track.
 		 *
 		 * @param viewSize Size of the underlying view in pixels.
@@ -53,10 +46,16 @@ namespace tk::game
 		std::vector<track::Edge> populateTrack(sf::Vector2f viewSize, uint16_t difficulty);
 		void populateTrees(sf::Vector2f viewSize, std::vector<track::Edge> &edges);
 
+	public:
+		sf::Vector2f startCenter() { return m_startCenter; }
+		sf::Vector2f endCenter() { return m_endCenter; }
+
 	private:
 		tk::shared_SpriteSheet m_redFlagSheet;
 		tk::shared_SpriteSheet m_blueFlagSheet;
 		tk::shared_SpriteSheet m_treesSheet;
+		sf::Vector2f m_startCenter;
+		sf::Vector2f m_endCenter;
 	};
 
 } // namespace tk::game

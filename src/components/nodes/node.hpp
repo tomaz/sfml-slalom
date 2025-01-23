@@ -30,9 +30,17 @@ namespace tk
 		virtual ~Node()					 = default;
 
 	protected:
+		/**
+		 * @brief Drawing function for subclasses. Called after we setup states for node's position.
+		 *
+		 * @param target Target to draw to.
+		 * @param states Render states.
+		 */
 		virtual void onDraw(RenderTarget &target, RenderStates states) const;
+
+	protected:
 		bool onUpdate(double delta) override;
-		void draw(RenderTarget &target, RenderStates states) const override;
+		void draw(RenderTarget &target, RenderStates states) const override final;
 
 	protected:
 		NodesList &nodes() { return m_nodes; }

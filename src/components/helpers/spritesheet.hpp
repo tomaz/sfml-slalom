@@ -23,7 +23,16 @@ namespace tk
 		: public std::enable_shared_from_this<SpriteSheet>
 	{
 	public:
+		/**
+		 * @brief Creates the sprite sheet but doesn't load any data yet.
+		 */
 		static std::shared_ptr<SpriteSheet> create();
+
+		/**
+		 * @brief Creates the sprite sheet and loads it from the given filename.
+		 */
+		static std::shared_ptr<SpriteSheet> create(std::string filename);
+
 		SpriteSheet(const SpriteSheet &other) noexcept = default;
 		SpriteSheet(SpriteSheet &&other) noexcept	   = default;
 		~SpriteSheet()								   = default;

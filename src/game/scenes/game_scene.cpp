@@ -1,4 +1,5 @@
 #include <application.hpp>
+#include <skier_node.hpp>
 #include <track_node.hpp>
 
 #include "game_scene.hpp"
@@ -23,10 +24,17 @@ namespace tk::game
 
 	//-------------------------------------------------------------------------
 	void GameScene::onActivated() {
+		// Create the track.
 		auto track = std::make_unique<TrackNode>();
-		track->initialize();
 		track->populate(application()->viewSize(), 100);
+
+		// Create the skier.
+		auto skier = std::make_unique<SkierNode>();
+		skier->setPosition(track->startCenter());
+
+		// We need to postpone adding nodes as we need to query them for some data and std::move makes the unique_ptr null.
 		nodes().emplace_back(std::move(track));
+		nodes().emplace_back(std::move(skier));
 	}
 
 #pragma endregion
