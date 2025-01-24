@@ -5,14 +5,24 @@ namespace tk
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
-	bool Node::onUpdate(double delta) {
+	void Node::onStatus(updatable::Status status) {
+		Updatable::onStatus(status);
+
+		// Notify nodes.
+		for (auto &node : m_nodes) {
+			node->setStatus(status);
+		}
+	}
+
+	//-------------------------------------------------------------------------
+	void Node::onUpdate(double delta) {
+		// Pass update to our base classes so physics will work correctly.
+		Physical::onUpdate(delta);
+
 		// Update all sub-nodes.
 		for (auto &subnode : m_nodes) {
 			subnode->update(delta);
 		}
-
-		// Pass update to base class so physics will work correctly.
-		return Physical::onUpdate(delta);
 	}
 
 	//-------------------------------------------------------------------------

@@ -25,8 +25,12 @@ namespace tk
 		void setFrame(int index);
 
 	protected:
-		void onActive(bool active) override;
-		bool onUpdate(double delta) override;
+		/**
+		 * @brief
+		 * @param status
+		 */
+		void onStatus(updatable::Status status) override;
+		void onUpdate(double delta) override;
 		void onDraw(RenderTarget &target, RenderStates states) const override;
 
 	private:

@@ -18,7 +18,7 @@ namespace tk::game
 		~SkierNode()							   = default;
 
 	protected:
-		bool onUpdate(double delta) override;
+		void onUpdate(double delta) override;
 
 	private:
 		void decreaseLeanAngle(double delta);

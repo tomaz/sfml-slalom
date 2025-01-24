@@ -26,7 +26,8 @@ namespace tk
 		~StateMachine()									 = default;
 
 	protected:
-		bool onUpdate(double delta) override;
+		void onStatus(updatable::Status status) override;
+		void onUpdate(double delta) override;
 		void draw(sf::RenderTarget &target, sf::RenderStates states) const override;
 
 	public:

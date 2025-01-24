@@ -15,11 +15,18 @@ namespace tk
 	}
 
 	//-------------------------------------------------------------------------
-	bool State::onUpdate(double delta) {
+	void State::onStatus(updatable::Status status) {
+		// Notify all sub-nodes.
+		for (auto &node : m_nodes) {
+			node->setStatus(status);
+		}
+	}
+
+	//-------------------------------------------------------------------------
+	void State::onUpdate(double delta) {
 		for (auto &node : m_nodes) {
 			node->update(delta);
 		}
-		return true;
 	}
 
 	//-------------------------------------------------------------------------

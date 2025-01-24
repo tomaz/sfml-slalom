@@ -39,7 +39,8 @@ namespace tk
 		virtual void onDraw(RenderTarget &target, RenderStates states) const;
 
 	protected:
-		bool onUpdate(double delta) override;
+		void onStatus(updatable::Status status) override;
+		void onUpdate(double delta) override;
 		void draw(RenderTarget &target, RenderStates states) const override final;
 
 	protected:

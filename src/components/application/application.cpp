@@ -114,7 +114,10 @@ namespace tk
 		auto fps		= micros > 0.0 ? 1'000'000.0 / micros : 0.0;
 
 		// Ask scene to update.
-		return m_scene->update(frameDelta);
+		m_scene->update(frameDelta);
+
+		// Indicate we need to stop if scene is completed.
+		return m_scene->status() != updatable::Status::Completed;
 	}
 
 	//-------------------------------------------------------------------------

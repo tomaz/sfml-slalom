@@ -6,14 +6,31 @@ namespace tk
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
-	bool StateMachine::onUpdate(double delta) {
+	void StateMachine::onStatus(updatable::Status status) {
+		Updatable::onStatus(status);
+
+		// Notify nodes.
+		for (auto &node : m_nodes) {
+			node->setStatus(status);
+		}
+
+		// Notify state.
+		if (m_state) {
+			m_state->setStatus(status);
+		}
+	}
+
+	//-------------------------------------------------------------------------
+	void StateMachine::onUpdate(double delta) {
 		// Update all nodes.
 		for (auto &node : m_nodes) {
 			node->update(delta);
 		}
 
 		// Update state if we have one.
-		return m_state ? m_state->onUpdate(delta) : true;
+		if (m_state) {
+			m_state->onUpdate(delta);
+		}
 	}
 
 	//-------------------------------------------------------------------------

@@ -32,7 +32,7 @@ namespace tk::game
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
-	bool SkierNode::onUpdate(double delta) {
+	void SkierNode::onUpdate(double delta) {
 		Node::onUpdate(delta);
 
 		if (sf::Keyboard::isKeyPressed(settings::Keyboard.LeftKey)) {
@@ -45,8 +45,6 @@ namespace tk::game
 
 		// Update the skier.
 		updateVelocity();
-
-		return true;
 	}
 
 #pragma endregion

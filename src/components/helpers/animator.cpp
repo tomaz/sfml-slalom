@@ -86,14 +86,14 @@ namespace tk
 
 	//-------------------------------------------------------------------------
 	void Animator::start() {
-		if (active()) return;
-		setActive(true);
+		if (status() == updatable::Status::Active) return;
+		setStatus(updatable::Status::Active);
 	}
 
 	//-------------------------------------------------------------------------
 	void Animator::stop(bool shouldReset) {
-		if (!active()) return;
-		setActive(false);
+		if (status() != updatable::Status::Active) return;
+		setStatus(updatable::Status::Paused);
 		if (shouldReset) reset();
 	}
 
@@ -111,8 +111,8 @@ namespace tk
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
-	bool Animator::onUpdate(double delta) {
-		if (m_total <= 0) return false;
+	void Animator::onUpdate(double delta) {
+		if (m_total <= 0) return;
 
 		// Remember current values before we (potentially) reset them.
 		auto lastPrefix = m_prefix;
@@ -125,7 +125,7 @@ namespace tk
 			case Type::OneShot:
 				if (m_time >= m_total) {
 					m_time = m_total;
-					setActive(false);
+					setStatus(updatable::Status::Completed);
 				}
 				break;
 
@@ -135,7 +135,7 @@ namespace tk
 					m_prefix = -1.0;
 				} else if (m_time <= 0.0) {
 					m_time = 0.0;
-					setActive(false);
+					setStatus(updatable::Status::Completed);
 				}
 				break;
 
@@ -184,8 +184,6 @@ namespace tk
 			m_currentIndex = std::distance(m_callbacks.begin(), m_current);
 			m_nextProgress = m_current->progress;
 		}
-
-		return true;
 	}
 
 #pragma endregion

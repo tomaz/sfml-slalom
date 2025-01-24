@@ -129,7 +129,7 @@ namespace tk
 		void reset();
 
 	protected:
-		bool onUpdate(double delta) override;
+		void onUpdate(double delta) override;
 
 	public:
 		void setType(animator::Type type) { m_type = type; }

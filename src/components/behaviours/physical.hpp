@@ -33,7 +33,7 @@ namespace tk
 		sf::Vector2<double> &velocity() { return m_velocity; }
 
 	protected:
-		bool onUpdate(double delta) override;
+		void onUpdate(double delta) override;
 
 	private:
 		sf::Vector2<double> m_acceleration{ 0.0, 0.0 };

@@ -2,6 +2,15 @@
 
 namespace tk
 {
+	namespace updatable
+	{
+		enum class Status {
+			Active,
+			Paused,
+			Completed
+		};
+	}
+
 	/**
 	 * @brief Specifies an object that is updatable.
 	 *
@@ -13,7 +22,7 @@ namespace tk
 		/**
 		 * @brief Constructor that allows setting initial active flag.
 		 */
-		Updatable(bool active) noexcept;
+		Updatable(updatable::Status status) noexcept;
 
 		Updatable() noexcept					   = default;
 		Updatable(const Updatable &other) noexcept = default;
@@ -25,30 +34,30 @@ namespace tk
 		 * @brief Called when object needs to update.
 		 *
 		 * @param delta Delta for multiplying all measures with.
-		 * @return Returns true if run loop can continue, false otherwise.
 		 */
-		virtual bool onUpdate(double delta) = 0;
+		virtual void onUpdate(double delta) = 0;
 
 		/**
-		 * @brief Called when active status changes.
+		 * @brief Called when status changes.
+		 *
+		 * @param status The new status.
 		 */
-		virtual void onActive(bool active);
+		virtual void onStatus(updatable::Status status);
 
 	public:
 		/**
-		 * @brief Called when object needs to update.
+		 * @brief Updates the object. If needed also updates @see status().
 		 *
 		 * @param delta Delta for multiplying all measures with.
-		 * @return Returns true if run loop can continue, false otherwise.
 		 */
-		bool update(double delta);
+		void update(double delta);
 
 	public:
-		void setActive(bool active);
-		bool active() { return m_active; }
+		void setStatus(updatable::Status status);
+		updatable::Status status() { return m_status; }
 
 	private:
-		bool m_active{ true };
+		updatable::Status m_status{ updatable::Status::Active };
 	};
 
 } // namespace tk

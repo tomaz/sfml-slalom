@@ -2,26 +2,39 @@
 
 namespace tk
 {
-	//-------------------------------------------------------------------------
-	Updatable::Updatable(bool active) noexcept
-		: m_active{ active } {
-	}
+#pragma region Construction & destruction
 
 	//-------------------------------------------------------------------------
-	void Updatable::onActive(bool active) {
+	Updatable::Updatable(updatable::Status status) noexcept
+		: m_status{ status } {
+	}
+
+#pragma endregion
+
+#pragma region Subclass
+
+	//-------------------------------------------------------------------------
+	void Updatable::onStatus(updatable::Status status) {
 		// Nothing to do by default.
 	}
 
+#pragma endregion
+
+#pragma region Public
+
 	//-------------------------------------------------------------------------
-	bool Updatable::update(double delta) {
-		if (!m_active) return false;
-		return onUpdate(delta);
+	void Updatable::update(double delta) {
+		if (m_status == updatable::Status::Active) {
+			onUpdate(delta);
+		}
 	}
 
 	//-------------------------------------------------------------------------
-	void Updatable::setActive(bool active) {
-		m_active = active;
-		onActive(m_active);
+	void Updatable::setStatus(updatable::Status status) {
+		m_status = status;
+		onStatus(status);
 	}
+
+#pragma endregion
 
 } // namespace tk

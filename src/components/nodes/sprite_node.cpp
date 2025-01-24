@@ -30,16 +30,17 @@ namespace tk
 #pragma region Overrides
 
 	//-------------------------------------------------------------------------
-	void SpriteNode::onActive(bool active) {
-		m_animator.setActive(active);
+	void SpriteNode::onStatus(updatable::Status status) {
+		Node::onStatus(status);
+		m_animator.setStatus(status);
 	}
 
 	//-------------------------------------------------------------------------
-	bool SpriteNode::onUpdate(double delta) {
+	void SpriteNode::onUpdate(double delta) {
 		if (m_animated) {
 			m_animator.update(delta);
 		}
-		return Node::onUpdate(delta);
+		Node::onUpdate(delta);
 	}
 
 	//-------------------------------------------------------------------------
