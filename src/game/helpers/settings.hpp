@@ -2,15 +2,17 @@
 
 #include <SFML/Graphics.hpp>
 
+#define DEBUG_DRAW_COLLISION_AREA 1
+
 namespace tk::game
 {
 	namespace settings
 	{
 		struct KeyboardSettings
 		{
-			sf::Keyboard::Scancode LeftKey	= sf::Keyboard::Scancode::A;
-			sf::Keyboard::Scancode RightKey = sf::Keyboard::Scancode::D;
-		} Keyboard;
+			sf::Keyboard::Scancode LeftKey	= sf::Keyboard::Scancode::D;
+			sf::Keyboard::Scancode RightKey = sf::Keyboard::Scancode::A;
+		};
 
 		struct PlayerSettings
 		{
@@ -36,7 +38,8 @@ namespace tk::game
 			double VelocityMax = 30.0;
 		};
 
-		PlayerSettings Player{};
+		extern KeyboardSettings Keyboard;
+		extern PlayerSettings Player;
 
 	} // namespace settings
 

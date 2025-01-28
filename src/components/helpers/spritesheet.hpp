@@ -50,6 +50,7 @@ namespace tk
 		bool load(std::string filename);
 
 	public:
+		sf::Vector2i &size() { return m_frames.front().size; }
 		sf::Texture &texture() { return m_texture; }
 		std::vector<sf::IntRect> &frames() { return m_frames; }
 
