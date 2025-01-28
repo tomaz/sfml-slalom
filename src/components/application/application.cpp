@@ -1,5 +1,6 @@
-#include "application.hpp"
 #include <scene.hpp>
+
+#include "application.hpp"
 
 namespace tk
 {

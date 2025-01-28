@@ -15,16 +15,23 @@ namespace tk::game
 		// Setup defaults.
 		m_maxSpeed = settings::Player.VelocityMax;
 
-		// Create the spreadsheet.
-		m_spritesheet = SpriteSheet::create("skier");
-		auto size	  = m_spritesheet->frames().front().size;
+		// Create the spreadsheet and get its size. For skier we only have single frame.
+		m_spritesheet	   = SpriteSheet::create("skier");
+		auto spriteSize	   = sf::Vector2f{ m_spritesheet->frames().front().size };
+		auto collisionSize = sf::Vector2f{ spriteSize.x / 4.f, spriteSize.y * 6.f / 8.f };
 
 		// Create the sprite. We could override this class from SpriteNode as well, but this way we don't expose sprite specific functionality to external code.
 		auto sprite = std::make_unique<SpriteNode>();
 		sprite->setSpriteSheet(m_spritesheet);
 		sprite->setFrame(0);
-		sprite->setPosition({ -size.x / 2.f, -size.y / 2.f }); // so rotations will work seamlessly
+		sprite->setPosition({ -spriteSize.x / 2.f, -spriteSize.y / 2.f }); // so rotations will work seamlessly
 		nodes().emplace_back(std::move(sprite));
+
+		// Prepare collision area. It's centered around the (0,0) coordinate.
+		m_collisionTester.setArea(sf::FloatRect{
+			{ -collisionSize.x / 2.f, -collisionSize.y / 2.f }, //
+			{ collisionSize.x, collisionSize.y }				//
+		});
 	}
 
 #pragma endregion
@@ -45,6 +52,9 @@ namespace tk::game
 
 		// Update the skier.
 		updateVelocity();
+
+		// Update collision tester.
+		m_collisionTester.update(*this);
 	}
 
 #pragma endregion

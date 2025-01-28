@@ -24,6 +24,8 @@ namespace tk
 		void setAnimation(double time, animator::Type type);
 		void setFrame(int index);
 
+		sf::Sprite *sprite() { return m_sprite.get(); }
+
 	protected:
 		/**
 		 * @brief
@@ -39,7 +41,7 @@ namespace tk
 
 	private:
 		std::shared_ptr<tk::SpriteSheet> m_spritesheet;
-		std::unique_ptr<tk::Sprite> m_sprite;
+		std::unique_ptr<sf::Sprite> m_sprite;
 		tk::Animator m_animator;
 		bool m_animated;
 	};

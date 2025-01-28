@@ -1,8 +1,10 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <aabb_collision_tester.hpp>
 #include <node.hpp>
 #include <range.hpp>
+#include <sprite_node.hpp>
 #include <spritesheet.hpp>
 
 namespace tk::game
@@ -11,6 +13,14 @@ namespace tk::game
 
 	namespace track
 	{
+		struct Pole
+		{
+			AABBCollisionTester tester;
+			SpriteNode *node;
+			bool isLeft;
+			bool isRight;
+		};
+
 		// Internal structure used when setting up the track.
 		struct Edge
 		{
@@ -47,10 +57,12 @@ namespace tk::game
 		void populateTrees(sf::Vector2f viewSize, std::vector<track::Edge> &edges);
 
 	public:
+		std::vector<std::unique_ptr<track::Pole>> &poles() { return m_poles; }
 		sf::Vector2f startCenter() { return m_startCenter; }
 		sf::Vector2f endCenter() { return m_endCenter; }
 
 	private:
+		std::vector<std::unique_ptr<track::Pole>> m_poles;
 		tk::shared_SpriteSheet m_redFlagSheet;
 		tk::shared_SpriteSheet m_blueFlagSheet;
 		tk::shared_SpriteSheet m_treesSheet;

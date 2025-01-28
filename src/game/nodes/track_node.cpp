@@ -1,7 +1,5 @@
 #include <randomizer.hpp>
 
-#include <sprite_node.hpp>
-
 #include "track_node.hpp"
 
 namespace tk::game
@@ -46,6 +44,7 @@ namespace tk::game
 		double trackBaseline = viewSize.x / 6.0 + viewSize.x / 10.0 * (1.0 - difficultyRatio);
 
 		// Prepare minimum and maximum horizontal distance between poles of each gate, and between gates.
+		auto poleSize  = (float)m_redFlagSheet->frames().front().size.y;
 		auto poleDist  = tk::Range<double>::range(poleBaseline, poleBaseline / 2.0);
 		auto gateDistY = tk::Range<double>::range(gateBaseline, gateBaseline / 2.0);
 		auto gateDistX = tk::Range<double>{ -gateBaseline, gateBaseline };
@@ -76,6 +75,30 @@ namespace tk::game
 		// Helpers for less verbose code later on.
 		auto animSpeed = [&]() { return randomizer.getRealRange(0.4, 0.6); };
 
+		// Helper lambda that creates pole node at the given coordinates and adds it to all required data structures.
+		auto createPoleNode = [&](double left, bool isLeft) {
+			auto spritesheet = gateDirection < 0.0 ? m_redFlagSheet : m_blueFlagSheet;
+			auto animSpeed	 = randomizer.getRealRange(0.4, 0.6);
+
+			// Create the pole node.
+			auto poleNode = std::make_unique<tk::SpriteNode>();
+			poleNode->setSpriteSheet(spritesheet);
+			poleNode->setAnimation(animSpeed, animator::Type::RepeatingBounce);
+			poleNode->setPosition({ (float)left, (float)gateTop });
+
+			// Create collision tester for the pole.
+			auto poleData = std::make_unique<track::Pole>();
+			poleData->tester.setArea({ { poleSize / 2.f, poleSize - 2.f }, { 1.f, 1.f } });
+			poleData->tester.update(*poleNode);
+			poleData->isLeft  = isLeft;
+			poleData->isRight = !isLeft;
+			poleData->node	  = poleNode.get();
+
+			// Add both objects to lists.
+			m_poles.emplace_back(std::move(poleData));
+			nodes().emplace_back(std::move(poleNode));
+		};
+
 		// Prepare the initial edges from top of screen to start of track.
 		auto startCenter	 = gateLeft + randomizer.getReal(gateDistX);
 		auto startTrackLeft	 = startCenter - randomizer.getReal(trackEdgeOffset);
@@ -93,7 +116,8 @@ namespace tk::game
 				.xBottom = Range<double>(
 					startTrackLeft,
 					startTrackRight
-				) }
+				) //
+			}
 		);
 
 		// Setup the track and prepare the positions for edge of track.
@@ -118,24 +142,15 @@ namespace tk::game
 			// Store track edge position at this coordinate; this will be used for placing trees later on.
 			result.emplace_back(
 				track::Edge{
-					.y		 = { gateTop, nextGateTop },
-					.xTop	 = { trackLeft, trackRight },
-					.xBottom = { trackLeft, trackRight } }
+					.y		 = { gateTop, nextGateTop },  //
+					.xTop	 = { trackLeft, trackRight }, //
+					.xBottom = { trackLeft, trackRight }  //
+				}
 			);
 
-			// Create the inner pole.
-			auto poleInner = std::make_unique<tk::SpriteNode>();
-			poleInner->setSpriteSheet(spritesheet);
-			poleInner->setAnimation(animSpeed(), animator::Type::RepeatingBounce);
-			poleInner->setPosition({ (float)gateLeft, (float)gateTop });
-			nodes().emplace_back(std::move(poleInner));
-
-			// Create the outer pole.
-			auto poleOuter = std::make_unique<tk::SpriteNode>();
-			poleOuter->setSpriteSheet(spritesheet);
-			poleOuter->setAnimation(animSpeed(), animator::Type::RepeatingBounce);
-			poleOuter->setPosition({ (float)outerLeft, (float)gateTop });
-			nodes().emplace_back(std::move(poleOuter));
+			// Create the inner and outer pole.
+			createPoleNode(gateLeft, gateDirection > 0.0);
+			createPoleNode(outerLeft, gateDirection < 0.0);
 
 			// Prepare for next gate.
 			gateTop		   = nextGateTop;

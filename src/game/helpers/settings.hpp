@@ -2,6 +2,8 @@
 
 #include <SFML/Graphics.hpp>
 
+#define DEBUG_DRAW_COLLISION_AREA 0
+
 namespace tk::game
 {
 	namespace settings
@@ -10,7 +12,7 @@ namespace tk::game
 		{
 			sf::Keyboard::Scancode LeftKey	= sf::Keyboard::Scancode::A;
 			sf::Keyboard::Scancode RightKey = sf::Keyboard::Scancode::D;
-		} Keyboard;
+		};
 
 		struct PlayerSettings
 		{
@@ -36,7 +38,8 @@ namespace tk::game
 			double VelocityMax = 30.0;
 		};
 
-		PlayerSettings Player{};
+		extern KeyboardSettings Keyboard;
+		extern PlayerSettings Player;
 
 	} // namespace settings
 
