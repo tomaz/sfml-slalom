@@ -13,12 +13,20 @@ namespace tk::game
 
 	namespace track
 	{
+		// Used for collision testing with poles.
 		struct Pole
 		{
 			AABBCollisionTester tester;
 			SpriteNode *node;
 			bool isLeft;
 			bool isRight;
+		};
+
+		// Used for collision testing with trees.
+		struct Tree
+		{
+			AABBCollisionTester tester;
+			SpriteNode *node;
 		};
 
 		// Internal structure used when setting up the track.
@@ -28,6 +36,9 @@ namespace tk::game
 			tk::Range<double> xTop;
 			tk::Range<double> xBottom;
 		};
+
+		using PolesArray = std::vector<std::unique_ptr<Pole>>;
+		using TreesArray = std::vector<std::unique_ptr<Tree>>;
 
 	} // namespace track
 
@@ -57,12 +68,14 @@ namespace tk::game
 		void populateTrees(sf::Vector2f viewSize, std::vector<track::Edge> &edges);
 
 	public:
-		std::vector<std::unique_ptr<track::Pole>> &poles() { return m_poles; }
+		track::PolesArray &poles() { return m_poles; }
+		track::TreesArray &trees() { return m_trees; }
 		sf::Vector2f startCenter() { return m_startCenter; }
 		sf::Vector2f endCenter() { return m_endCenter; }
 
 	private:
-		std::vector<std::unique_ptr<track::Pole>> m_poles;
+		track::PolesArray m_poles;
+		track::TreesArray m_trees;
 		tk::shared_SpriteSheet m_redFlagSheet;
 		tk::shared_SpriteSheet m_blueFlagSheet;
 		tk::shared_SpriteSheet m_treesSheet;

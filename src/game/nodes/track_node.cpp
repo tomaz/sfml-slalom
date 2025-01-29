@@ -121,6 +121,7 @@ namespace tk::game
 		);
 
 		// Setup the track and prepare the positions for edge of track.
+		m_poles.clear();
 		while (gateTop <= gateBottom) {
 			// Calculate next gate vertical coordinate; this simplifies trees calculations.
 			auto nextGateTop = gateTop + randomizer.getReal(gateDistY);
@@ -193,6 +194,7 @@ namespace tk::game
 			nodes().emplace_back(std::move(tree));
 		};
 
+		m_trees.clear();
 		for (auto &edge : edges) {
 			// Prepare top and bottom tile positions, exit if the same (we'll draw trees in next loop in this case).
 			double sectionTop	 = tiled(edge.y.min, treeSize.y);
@@ -211,7 +213,7 @@ namespace tk::game
 				}
 
 				// Draw trees from right track edge to right screen edge.
-				for (double left = trackRight; left < screenRight; left += treeSize.x) {
+				for (double left = trackRight; left <= screenRight; left += treeSize.x) {
 					placeTree(left, top);
 				}
 			}
